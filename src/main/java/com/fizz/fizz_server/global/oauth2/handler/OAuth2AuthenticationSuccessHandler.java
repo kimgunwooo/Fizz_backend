@@ -5,6 +5,7 @@ import com.fizz.fizz_server.domain.user.domain.User;
 import com.fizz.fizz_server.domain.user.repository.UserRepository;
 import com.fizz.fizz_server.global.base.response.exception.BusinessException;
 import com.fizz.fizz_server.global.base.response.exception.ExceptionType;
+import com.fizz.fizz_server.global.config.properties.AwsProperties;
 import com.fizz.fizz_server.global.jwt.TokenProvider;
 import com.fizz.fizz_server.global.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.fizz.fizz_server.global.oauth2.service.OAuth2UserPrincipal;
@@ -35,6 +36,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final OAuth2UserUnlinkManager oAuth2UserUnlinkManager;
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
+    private final AwsProperties awsProperties;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -89,6 +91,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 isNewUser.set(true);
             }
 
+
             String accessToken = tokenProvider.createToken(user.getId(), user.getRole());
             // 리프레시 토큰 발급, 리프레시 토큰 DB 저장
 
@@ -129,7 +132,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         User user = User.builder()
                 .provider(provider)
                 .providerId(providerId)
-                // 기본 프로필 아이콘 주소(String) 넣기
+                .profileImage("https://" + awsProperties.getCloudFront().getDomain() + "/default-profile-image.jpeg")
                 .role(RoleType.ROLE_GUEST)
                 .build();
 
