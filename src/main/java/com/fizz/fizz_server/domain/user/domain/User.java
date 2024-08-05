@@ -58,7 +58,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Follow> followees = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -67,10 +67,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)
     private List<Challenge> createdChallenges = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PostLike> postLikes = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommentLike> commentLikes = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
