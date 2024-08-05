@@ -24,7 +24,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Component
 public class TokenProvider implements AuthenticationProvider {
-    private static final long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = 1000 * 60 * 30;    // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = 1000 * 60 * 30 * 2 * 4;    // 4시간
     private final CustomUserDetailsService userDetailsService;
 
     @Value("${jwt.secret-key}")
